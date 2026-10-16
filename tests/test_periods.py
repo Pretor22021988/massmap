@@ -11,8 +11,11 @@ def test_minus_months_keeps_calendar():
 
 def test_windows():
     accepted = date(2026, 1, 15)
+    # последний месяц — только п. 2 ст. 61.3 (п. 11–12 ПП ВАС № 63)
     assert [p.code for p in applicable(date(2026, 1, 10), accepted)] == \
-        ["61.3-1m", "61.3-6m", "61.2-1y", "61.2-3y"]
+        ["61.3-1m", "61.2-1y", "61.2-3y"]
+    assert [p.code for p in applicable(date(2025, 12, 15), accepted)] == \
+        ["61.3-1m", "61.3-6m", "61.2-1y", "61.2-3y"]  # граница: ровно месяц
     assert [p.code for p in applicable(date(2025, 9, 1), accepted)] == \
         ["61.3-6m", "61.2-1y", "61.2-3y"]
     assert [p.code for p in applicable(date(2025, 3, 1), accepted)] == \
@@ -23,7 +26,8 @@ def test_windows():
 
 def test_after_acceptance_is_covered():
     accepted = date(2026, 1, 15)
-    assert len(applicable(date(2026, 5, 1), accepted)) == 4
+    assert [p.code for p in applicable(date(2026, 5, 1), accepted)] == \
+        ["61.3-1m", "61.2-1y", "61.2-3y"]
 
 
 def test_deepest_window():
