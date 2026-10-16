@@ -154,7 +154,9 @@ def render(
     a("| Норма | Период | Начало периода |")
     a("|---|---|---|")
     for p in PERIODS:
-        a(f"| {p.norm} | {p.title} | {p.start(case.accepted):%d.%m.%Y} |")
+        end = p.end(case.accepted)
+        a(f"| {p.norm} | {p.title} | {p.start(case.accepted):%d.%m.%Y}"
+          + (f" — {end:%d.%m.%Y}" if end else "") + " |")
     a("")
     if not has_statements:
         a("**Ограничение объёма.** Расчёт выполнен без банковских выписок "
